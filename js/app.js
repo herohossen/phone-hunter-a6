@@ -1,7 +1,9 @@
 const loadData =  async() =>{
     const inputData = document.getElementById('input-search');
+    //error Msg
     const errorDiv = document.getElementById('msgError');
     const searchPhone= inputData.value;
+    //Error Msg Condition
     if(searchPhone.trim()==""){
       errorDiv.innerText = "Cant be empty";
       errorDiv.style.display = "block";
@@ -68,28 +70,34 @@ const displayDetailByIdName = (phone) => {
       cardDataLoad.innerText='';
       div.innerHTML = `
       
-          <div class="card" id="close-card" style="width: 25rem">
-          <div class="card-header">
-            <button class="btn btn-danger" onClick="closeCard()" >x</button>
-          </div>
+          <div class="card" id="close-card" style="width: 30rem">
+             <div class="card-header">
+                 <button class="btn btn-danger onClick="closeCard()" >x</button>
+            </div>
           <div class="card-body">
-          <img src="${phone.image}" class="card-img-top" alt="phone" />
-         
-          <h5 class="card-title">${phone.name}</h5>
-          <p class="card-text">${(phone?.releaseDate)? phone.releaseDate:'Release date not found'}</p>
-          <h3 class="text-danger">Main Features</h3>
-            <p class="card-text"> <b>Storage:</b> 
-             ${ (phone?.mainFeatures?.storage) !== undefined ? phone.mainFeatures.storage : 'N/A'}
-                  </p>
-                  <p class="card-text"> <b>Display:</b> 
-                  ${ (phone?.mainFeatures?.displaySize) !== undefined ? phone.mainFeatures.displaySize : 'N/A'}
-                       </p>
-                       <p class="card-text"> <b>Chipset:</b> 
-                       ${ (phone?.mainFeatures?.chipSet) !== undefined ? phone.mainFeatures.chipSet : 'N/A'}
-                            </p>
-                            <p class="card-text"> <b>Memory:</b> 
-                            ${ (phone?.mainFeatures?.memory) !== undefined ? phone.mainFeatures.memory : 'N/A'}
-                                 </p>
+            <div class="d-flex">
+             <div>
+                <img class="img-fluid" src="${phone.image}" class="card-img-top" alt="phone" />
+             </div>
+    
+             <div class="ps-2">
+              <h5 class="card-title">${phone.name}</h5>
+               <p class="card-text">${(phone?.releaseDate)? phone.releaseDate:'Release date not found'}</p>
+                <h3 class="text-danger">Main Features</h3>
+                <p class="card-text"> <b>Storage:</b> 
+                ${ (phone?.mainFeatures?.storage) !== undefined ? phone.mainFeatures.storage : 'N/A'}
+                      </p>
+                      <p class="card-text"> <b>Display:</b> 
+                      ${ (phone?.mainFeatures?.displaySize) !== undefined ? phone.mainFeatures.displaySize : 'N/A'}
+                          </p>
+                          <p class="card-text"> <b>Chipset:</b> 
+                          ${ (phone?.mainFeatures?.chipSet) !== undefined ? phone.mainFeatures.chipSet : 'N/A'}
+                                </p>
+                                <p class="card-text"> <b>Memory:</b> 
+                                ${ (phone?.mainFeatures?.memory) !== undefined ? phone.mainFeatures.memory : 'N/A'}
+                                    </p>
+          </div>
+        </div>
       </div>
       `;
       cardDataLoad.appendChild(div);
@@ -98,6 +106,7 @@ const displayDetailByIdName = (phone) => {
 
  //Dosplay data by id End
 
+// card close button
  const closeCard =()=>{
   var x = document.getElementById("close-card");
   x.style.display = "none";
