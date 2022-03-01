@@ -1,38 +1,49 @@
 const loadData =  async() =>{
     const inputData = document.getElementById('input-search');
-    //error Msg
-    const errorDiv = document.getElementById('msgError');
     const searchPhone= inputData.value;
     //Error Msg Condition
     if(searchPhone.trim()==""){
-      errorDiv.innerText = "Cant be empty";
-      errorDiv.style.display = "block";
+      showErrorMsgDiv("*Cant be empty");
+      const displayPhone = document.getElementById('display-phone');
+      displayPhone.innerHTML = "";
+      return false;
     }else{
-      errorDiv.style.display = "none";
+      hideErrorMsgDiv();
     }
     //Input Data
    console.log(searchPhone);
   const url= ` https://openapi.programming-hero.com/api/phones?search=${searchPhone}`;
- 
+ const spinnerDiv = document.getElementById('spinner-call');
+ spinnerDiv.style.display = "block";
   const res =await fetch(url);
   const data= await res.json();
-  console.log(data.data);
-  displayPhoneData(data.data)
+  spinnerDiv.style.display = "none";
+  const totalData = data.data.length;
+  if(totalData == 0){
+    showErrorMsgDiv("*No Data Found");
+  }
+  
+  const displayedDataCount = 20; 
+  displayPhoneData(data.data,displayedDataCount);
+  
 }
 // Display Data in card Start
-const displayPhoneData = (phones) => {
+const displayPhoneData = (phones,displayedDataCount) => {
     //   console.log(id);
-    phones.forEach((phone) => {
+    const displayPhone = document.getElementById('display-phone');
+    displayPhone.innerHTML = "";
+    phones.slice(0,displayedDataCount).forEach((phone) => {
        console.log(phone.slug);
-      const displayPhone = document.getElementById('display-phone');
+      
       const div = document.createElement('div');
-      div.classList.add('col');
+      // div.classList.add('col');
       div.innerHTML = `
       <div class="card" style="width: 18rem">
           <img src="${phone.image}" class="card-img-top" alt="..." />
           <div class="card-body">
           <h3 class="card-title">${phone.brand}</h3>
           <h5 class="card-title">${phone.phone_name}</h5>
+          
           <button 
           onclick="lodeDetailByIdName('${
             phone.slug
@@ -65,14 +76,15 @@ const displayPhoneData = (phones) => {
 const displayDetailByIdName = (phone) => {
     console.log(phone.slug);
       const cardDataLoad = document.getElementById('phone-detils');
+
       const div = document.createElement('div');
      // div.classList.add('p');
-      cardDataLoad.innerText='';
+      cardDataLoad.innerHTML='';
       div.innerHTML = `
       
           <div class="card" id="close-card" style="width: 30rem">
              <div class="card-header">
-                 <button class="btn btn-danger onClick="closeCard()" >x</button>
+                 <button class="btn btn-danger" onclick="closeCard()">x</button>
             </div>
           <div class="card-body">
             <div class="d-flex">
@@ -96,6 +108,30 @@ const displayDetailByIdName = (phone) => {
                                 <p class="card-text"> <b>Memory:</b> 
                                 ${ (phone?.mainFeatures?.memory) !== undefined ? phone.mainFeatures.memory : 'N/A'}
                                     </p>
+                                    
+                                    <p class="card-text"> <b>Sensore:</b> 
+                                    ${ (phone?.mainFeatures?.sensors) !== undefined ? phone.mainFeatures.sensors.join(", ") : 'N/A'}
+                                        </p>
+                                                 <h3 class="text-danger">Other Features</h3>                         
+                                    <p class="card-text"> <b>WALN:</b> 
+                                    ${ (phone?.others?.WLAN) !== undefined ? phone.others.WLAN: 'N/A'}
+                                        </p>
+                                                <p class="card-text"> <b>Bluetooth":</b> 
+                                                ${ (phone?.others?.Bluetooth) !== undefined ? phone.others.Bluetooth: 'N/A'}
+                                                    </p>
+                                                    <p class="card-text"> <b>GPS:</b> 
+                                                    ${ (phone?.others?.GPS) !== undefined ? phone.others.GPS: 'N/A'}
+                                                        </p>
+                                                        <p class="card-text"> <b>NFC:</b> 
+                                                        ${ (phone?.others?.NFC) !== undefined ? phone.others.NFC: 'N/A'}
+                                                            </p>
+                                                            <p class="card-text"> <b>Radio:</b> 
+                                                            ${ (phone?.others?.Radio) !== undefined ? phone.others.Radio: 'N/A'}
+                                                                </p>
+                                                                <p class="card-text"> <b>USB:</b> 
+                                                                ${ (phone?.others?.WLAN) !== undefined ? phone.others.USB: 'N/A'}
+                                                                    </p>
+
           </div>
         </div>
       </div>
@@ -111,5 +147,16 @@ const displayDetailByIdName = (phone) => {
   var x = document.getElementById("close-card");
   x.style.display = "none";
  }
+
+const showErrorMsgDiv = (msg) => {
+  const errorDiv = document.getElementById('msgError');
+  errorDiv.innerText = msg;
+  errorDiv.style.display = "block";
+}
+
+const hideErrorMsgDiv = () => {
+  const errorDiv = document.getElementById('msgError');
+  errorDiv.style.display = "none";
+}
 
 
