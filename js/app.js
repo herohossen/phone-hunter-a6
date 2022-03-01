@@ -23,8 +23,8 @@ const displayPhoneData = (phones) => {
       <div class="card" style="width: 18rem">
           <img src="${phone.image}" class="card-img-top" alt="..." />
           <div class="card-body">
-          <h5 class="card-title">${phone.brand}</h5>
-         
+          <h3 class="card-title">${phone.brand}</h3>
+          <h5 class="card-title">${phone.phone_name}</h5>
           <button 
           onclick="lodeDetailByIdName('${
             phone.slug
@@ -40,7 +40,7 @@ const displayPhoneData = (phones) => {
 
   //Display Data in card End
 
-  //Display data by id Start
+  //Display data by id  Start
 
   const lodeDetailByIdName = async (phoneId) => {
        console.log('Phone id'+' ' + phoneId);
@@ -62,14 +62,14 @@ const displayDetailByIdName = (phone) => {
       div.innerHTML = `
           <div class="card" style="width: 18rem">
           <div class="card-body">
-          <h5 class="card-title">${phone.slug}</h5>
-          <p class="card-text">${phone.name}</p>
+          <img src="${phone.image}" class="card-img-top" alt="phone" />
+          <h5 class="card-title">${phone.name}</h5>
+          <p class="card-text">${phone.releaseDate}</p>
           </div>
       </div>
       `;
       cardDataLoad.appendChild(div);
   };
-
 
 
  //Dosplay data by id End

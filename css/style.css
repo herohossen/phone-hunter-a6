@@ -3,6 +3,10 @@
     float: none; /* Added */
     margin-bottom: 10px; /* Added */
     margin-top: 20px; /* Added */
-    background-color:darkgray;
-    color:white;
+    /* background-color:darkgray;
+    color:white; */
 }
+
+.close-icon {
+    cursor: pointer;
+  }
