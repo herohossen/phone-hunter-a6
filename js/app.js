@@ -1,6 +1,13 @@
 const loadData =  async() =>{
-    const inputFood = document.getElementById('input-search');
-    const searchPhone= inputFood.value;
+    const inputData = document.getElementById('input-search');
+    const errorDiv = document.getElementById('msgError');
+    const searchPhone= inputData.value;
+    if(searchPhone.trim()==""){
+      errorDiv.innerText = "Cant be empty";
+      errorDiv.style.display = "block";
+    }else{
+      errorDiv.style.display = "none";
+    }
     //Input Data
    console.log(searchPhone);
   const url= ` https://openapi.programming-hero.com/api/phones?search=${searchPhone}`;
@@ -8,7 +15,6 @@ const loadData =  async() =>{
   const res =await fetch(url);
   const data= await res.json();
   console.log(data.data);
-
   displayPhoneData(data.data)
 }
 // Display Data in card Start
@@ -48,6 +54,7 @@ const displayPhoneData = (phones) => {
   
     const res = await fetch(url);
     const data = await res.json();
+    console.log(data);
      displayDetailByIdName(data.data);
     //console.log('DAta'+ ' '+ data.data);
   };
@@ -57,15 +64,32 @@ const displayDetailByIdName = (phone) => {
     console.log(phone.slug);
       const cardDataLoad = document.getElementById('phone-detils');
       const div = document.createElement('div');
-       div.classList.add('p');
+     // div.classList.add('p');
       cardDataLoad.innerText='';
       div.innerHTML = `
-          <div class="card" style="width: 18rem">
+      
+          <div class="card" id="close-card" style="width: 25rem">
+          <div class="card-header">
+            <button class="btn btn-danger" onClick="closeCard()" >x</button>
+          </div>
           <div class="card-body">
           <img src="${phone.image}" class="card-img-top" alt="phone" />
+         
           <h5 class="card-title">${phone.name}</h5>
-          <p class="card-text">${phone.releaseDate}</p>
-          </div>
+          <p class="card-text">${(phone?.releaseDate)? phone.releaseDate:'Release date not found'}</p>
+          <h3 class="text-danger">Main Features</h3>
+            <p class="card-text"> <b>Storage:</b> 
+             ${ (phone?.mainFeatures?.storage) !== undefined ? phone.mainFeatures.storage : 'N/A'}
+                  </p>
+                  <p class="card-text"> <b>Display:</b> 
+                  ${ (phone?.mainFeatures?.displaySize) !== undefined ? phone.mainFeatures.displaySize : 'N/A'}
+                       </p>
+                       <p class="card-text"> <b>Chipset:</b> 
+                       ${ (phone?.mainFeatures?.chipSet) !== undefined ? phone.mainFeatures.chipSet : 'N/A'}
+                            </p>
+                            <p class="card-text"> <b>Memory:</b> 
+                            ${ (phone?.mainFeatures?.memory) !== undefined ? phone.mainFeatures.memory : 'N/A'}
+                                 </p>
       </div>
       `;
       cardDataLoad.appendChild(div);
@@ -73,5 +97,10 @@ const displayDetailByIdName = (phone) => {
 
 
  //Dosplay data by id End
+
+ const closeCard =()=>{
+  var x = document.getElementById("close-card");
+  x.style.display = "none";
+ }
 
 
